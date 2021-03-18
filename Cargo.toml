@@ -11,4 +11,4 @@ opt-level = 1
 
 [dependencies]
 rppal = "0.11.3"
-rodio = "0.13.0"
+play = "0.5.3"

@@ -2,9 +2,8 @@
 
 ## TODO
 
- - Tweak sonar
- - App state derived from sonar inputs
- - Play audio!
+ - App state derived from sonar inputs (close enough?)
+ - Play audio! (its blocking the thread..)
  - Web Interface for configuring?
  - A nice enclosure for it all
  - Off switch?
@@ -28,5 +27,7 @@
 
   # If all is bleak
 
+  - Pops fix: `curl -sS https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/i2samp.sh | bash`
   - rodio dep: `apt-get install libasound2-dev`
   - eq: `sudo apt-get install -y libasound2-plugin-equal`
+  - soloud cmake: `sudo apt-get install cmake`
