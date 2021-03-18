@@ -8,7 +8,7 @@ const TRIGGER_DISTANCE: f64 = 40.0;
 const TRIGGER_END_DISTANCE: f64 = TRIGGER_DISTANCE * 2.0;
 const DIST_SAMPLE_COUNT: isize = 5;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum StatusState {
     OnTrigger,
     OnTriggerEnd,
@@ -91,11 +91,15 @@ impl SonarState {
             }
         }
 
+        if samples.len() == 0 {
+            return;
+        }
+
         // Passing as a mutable reference to the function can change the variable
         let distance = self.filter(&mut samples);
 
-        // println!("{:?}", samples);
-        println!("d: {}, s: {:?}", distance, self.status_state);
+        // Quick debug if necessary
+        // println!("d: {}, s: {:?}", distance, self.status_state);
 
         match self.status_state {
             StatusState::OnTrigger => {
@@ -123,7 +127,8 @@ impl SonarState {
         }
     }
 
-    pub fn get_state(&mut self) -> &StatusState {
-        &self.status_state
+    /// Returning a clone as its a simple enum 
+    pub fn get_state(&mut self) -> StatusState {
+        self.status_state.clone()
     }
 }

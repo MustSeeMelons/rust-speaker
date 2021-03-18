@@ -64,7 +64,7 @@ impl Sonar {
         while self.echo.is_low() {
             start = Instant::now();
             if init.elapsed().as_millis() > 30 {
-                println!("was never low");
+                // println!("was never low");
                 return -1.0;
             }
         }
@@ -74,7 +74,7 @@ impl Sonar {
         while self.echo.is_high() {
             duration = start.elapsed();
             if init.elapsed().as_millis() > 30 {
-                println!("was never high");
+                // println!("was never high");
                 return -1.0;
             }
         }
