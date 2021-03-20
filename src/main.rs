@@ -1,12 +1,16 @@
 mod sonar_state;
 mod sonar;
 use sonar_state::StatusState;
-
 use std::thread;
+
+use std::fs::File;
+use std::io::BufReader;
+use rodio::Source;
 use std::time::{Duration};
-// use play::*;
 
 fn main() {
+    let (_stream, stream_handle) = rodio::OutputStream::try_default().unwrap();
+
     // Sonar setup
     let mut sonar_state = match sonar_state::SonarState::new()
     {
@@ -18,7 +22,7 @@ fn main() {
     };
 
     let mut last_state: StatusState = sonar_state.get_state();
-
+    
     loop {
         sonar_state.state_tick();
         let state: StatusState = sonar_state.get_state();
@@ -30,7 +34,14 @@ fn main() {
             StatusState::OnTriggerEnd => {
                 if state != last_state {
                     last_state = state;
-                    play::play("audio/welcome.mp3").unwrap();
+                    // This works fine, except can't be used to play a song, as I wont be able to stop it
+                    // thread::spawn(|| {
+                    //     play::play("audio/welcome.mp3").unwrap();
+                    // });
+
+                    let file = File::open("audio/welcome.mp3").unwrap();
+                    let source = rodio::Decoder::new(BufReader::new(file)).unwrap();
+                    stream_handle.play_raw(source.convert_samples()).unwrap();
                 }
             }
             StatusState::OffTrigger => {
@@ -39,9 +50,19 @@ fn main() {
             StatusState::OffTriggerEnd => {
                 if state != last_state {
                     last_state = state;
-                    play::play("audio/bye.mp3").unwrap();
+
+                    // thread::spawn(|| {
+                    //     play::play("audio/bye.mp3").unwrap();
+                    // });
+
+                    let file = File::open("audio/bye.mp3").unwrap();
+                    let source = rodio::Decoder::new(BufReader::new(file)).unwrap();
+                    stream_handle.play_raw(source.convert_samples()).unwrap();
                 }   
             }
         }
+
+        // For Pi3
+        thread::sleep(Duration::from_millis(100));
     }
 }

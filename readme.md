@@ -1,5 +1,11 @@
 # Fancy Toilet
 
+# Roadblocks
+
+- Pi Zero is too slow for `rodio`
+- Making own lib would be _very_ time consuming
+- Pi 3: `rodio` audio is sped up
+
 ## TODO
 
  - App state derived from sonar inputs (close enough?)

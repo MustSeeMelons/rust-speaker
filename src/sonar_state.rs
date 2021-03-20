@@ -3,7 +3,7 @@ use crate::sonar::Sonar;
 
 const GPIO_LED: u8 = 23;
 // Turn on distance
-const TRIGGER_DISTANCE: f64 = 40.0;
+const TRIGGER_DISTANCE: f64 = 20.0;
 // Turn off distance
 const TRIGGER_END_DISTANCE: f64 = TRIGGER_DISTANCE * 2.0;
 const DIST_SAMPLE_COUNT: isize = 5;
@@ -99,7 +99,7 @@ impl SonarState {
         let distance = self.filter(&mut samples);
 
         // Quick debug if necessary
-        // println!("d: {}, s: {:?}", distance, self.status_state);
+        println!("d: {}, s: {:?}", distance, self.status_state);
 
         match self.status_state {
             StatusState::OnTrigger => {
